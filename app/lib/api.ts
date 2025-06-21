@@ -98,6 +98,14 @@ class ApiClient {
     }
   }
 
+  // Generic POST method
+  async post<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
+    return this.request<T>(endpoint, {
+      method: 'POST',
+      body: data ? JSON.stringify(data) : undefined,
+    });
+  }
+
   // Settings API methods
   async getAllSettings(): Promise<ApiResponse<Setting[]>> {
     return this.request<Setting[]>(ENDPOINTS.SETTINGS);

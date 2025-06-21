@@ -211,9 +211,13 @@ export default function Cart() {
 
                 {/* Action Buttons */}
                 <div className="space-y-3">
-                  <button className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                  <Link
+                    href="/checkout"
+                    onClick={handleClose}
+                    className="block w-full py-3 text-center bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
                     Thanh toán ngay
-                  </button>
+                  </Link>
                   <Link
                     href="/products"
                     onClick={handleClose}
