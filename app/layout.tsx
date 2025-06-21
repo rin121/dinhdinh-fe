@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DinhDinh Cake - Bánh Kem Thủ Công",
+  title: "Đình Đình House - Bánh Kem Thủ Công",
   description: "Bánh kem thủ công cao cấp với hương vị tuyệt vời",
 };
 

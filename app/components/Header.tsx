@@ -16,7 +16,7 @@ export default function Header() {
                   <span className="text-white font-bold text-xl">🍰</span>
                 </div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
-                  DinhDinh Cake
+                  Đình Đình House 
                 </h1>
               </Link>
             </div>

@@ -4,7 +4,7 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
-            <h2 className="text-4xl font-bold text-gray-800">Về DinhDinh Cake</h2>
+            <h2 className="text-4xl font-bold text-gray-800">Về Đình Đình House </h2>
             <p className="text-xl text-gray-600 leading-relaxed">
               Chúng tôi là những nghệ nhân bánh kem với hơn 5 năm kinh nghiệm trong việc tạo ra những chiếc bánh kem nghệ thuật độc đáo. 
               Mỗi sản phẩm đều được làm thủ công với tình yêu và sự tận tâm.

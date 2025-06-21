@@ -8,7 +8,7 @@ export default function Footer() {
               <div className="w-8 h-8 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-sm">🍰</span>
               </div>
-              <h3 className="text-xl font-bold">DinhDinh Cake</h3>
+              <h3 className="text-xl font-bold">Đình Đình House</h3>
             </div>
             <p className="text-gray-400">
               Nghệ thuật bánh kem cho mọi dịp đặc biệt trong cuộc sống của bạn.
@@ -42,7 +42,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 DinhDinh Cake. Tất cả quyền được bảo lưu.</p>
+          <p>&copy; 2025 Đình Đình House . Tất cả quyền được bảo lưu.</p>
         </div>
       </div>
     </footer>
