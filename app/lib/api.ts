@@ -1,5 +1,6 @@
 // API configuration và utilities
 import { API_CONFIG, ENDPOINTS } from '../config/api';
+import { Product, ProductsApiResponse } from '../data/types';
 
 const API_BASE_URL = API_CONFIG.BASE_URL;
 
@@ -69,6 +70,30 @@ class ApiClient {
       return data;
     } catch (error) {
       console.error('API request failed:', error);
+      throw error;
+    }
+  }
+
+  // Generic GET method
+  async get<T>(endpoint: string): Promise<T> {
+    const url = `${this.baseURL}${endpoint}`;
+    
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('API GET request failed:', error);
       throw error;
     }
   }
@@ -151,6 +176,46 @@ class ApiClient {
       method: 'DELETE',
     });
   }
+
+  // Products API methods
+  async getAllProducts(params?: {
+    category_id?: number;
+    category_type?: string;
+    badge?: string;
+    search?: string;
+    sort_by?: string;
+    sort_order?: 'asc' | 'desc';
+    per_page?: number;
+    active_only?: boolean;
+  }): Promise<ProductsApiResponse> {
+    const searchParams = new URLSearchParams();
+    if (params?.category_id) searchParams.append('category_id', params.category_id.toString());
+    if (params?.category_type) searchParams.append('category_type', params.category_type);
+    if (params?.badge) searchParams.append('badge', params.badge);
+    if (params?.search) searchParams.append('search', params.search);
+    if (params?.sort_by) searchParams.append('sort_by', params.sort_by);
+    if (params?.sort_order) searchParams.append('sort_order', params.sort_order);
+    if (params?.per_page) searchParams.append('per_page', params.per_page.toString());
+    if (params?.active_only !== undefined) searchParams.append('active_only', params.active_only.toString());
+    
+    const url = searchParams.toString() 
+      ? `/products?${searchParams.toString()}`
+      : '/products';
+    
+    return this.get<ProductsApiResponse>(url);
+  }
+
+  async getFeaturedProducts(): Promise<{ success: boolean; data: Product[] }> {
+    return this.get<{ success: boolean; data: Product[] }>('/products/featured');
+  }
+
+  async searchProducts(query: string): Promise<{ success: boolean; data: Product[]; query: string; count: number }> {
+    return this.get<{ success: boolean; data: Product[]; query: string; count: number }>(`/products/search?q=${encodeURIComponent(query)}`);
+  }
+
+  async getProductBySlug(slug: string): Promise<{ success: boolean; data: Product }> {
+    return this.get<{ success: boolean; data: Product }>(`/products/${slug}`);
+  }
 }
 
 // Export singleton instance
@@ -174,4 +239,20 @@ export const categoriesApi = {
   create: (data: Partial<Category>) => apiClient.createCategory(data),
   update: (id: number, data: Partial<Category>) => apiClient.updateCategory(id, data),
   delete: (id: number) => apiClient.deleteCategory(id),
+};
+
+export const productsApi = {
+  getAll: (params?: {
+    category_id?: number;
+    category_type?: string;
+    badge?: string;
+    search?: string;
+    sort_by?: string;
+    sort_order?: 'asc' | 'desc';
+    per_page?: number;
+    active_only?: boolean;
+  }) => apiClient.getAllProducts(params),
+  getFeatured: () => apiClient.getFeaturedProducts(),
+  search: (query: string) => apiClient.searchProducts(query),
+  getBySlug: (slug: string) => apiClient.getProductBySlug(slug),
 }; 
