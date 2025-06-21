@@ -1,4 +1,7 @@
+import Link from 'next/link';
 import Cart from './Cart';
+import DynamicMenu from './DynamicMenu';
+import MobileMenu from './MobileMenu';
 
 export default function Header() {
   return (
@@ -6,19 +9,16 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl">🍰</span>
-            </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
-              DinhDinh Cake
-            </h1>
+            <Link href="/" className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-xl">🍰</span>
+              </div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+                DinhDinh Cake
+              </h1>
+            </Link>
           </div>
-          <nav className="hidden md:flex space-x-8">
-            <a href="#home" className="text-gray-700 hover:text-pink-500 transition-colors font-medium">Trang chủ</a>
-            <a href="#products" className="text-gray-700 hover:text-pink-500 transition-colors font-medium">Sản phẩm</a>
-            <a href="#about" className="text-gray-700 hover:text-pink-500 transition-colors font-medium">Về chúng tôi</a>
-            <a href="#contact" className="text-gray-700 hover:text-pink-500 transition-colors font-medium">Liên hệ</a>
-          </nav>
+          <DynamicMenu />
           <div className="flex items-center space-x-4">
             <button className="p-2 text-gray-700 hover:text-pink-500 transition-colors">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,6 +26,7 @@ export default function Header() {
               </svg>
             </button>
             <Cart />
+            <MobileMenu />
           </div>
         </div>
       </div>

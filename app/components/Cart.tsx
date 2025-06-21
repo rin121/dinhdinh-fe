@@ -140,11 +140,14 @@ export default function Cart() {
                       <span className="text-lg font-semibold">Tổng cộng:</span>
                       <span className="text-2xl font-bold text-pink-600">{formatPrice(totalPrice)}</span>
                     </div>
-                    <button
-                      className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3 px-4 rounded-xl font-semibold text-lg hover:shadow-lg transition-all duration-300"
-                    >
-                      Thanh toán ngay 💳
-                    </button>
+                    <div className="mt-8">
+                      <button 
+                        onClick={() => setIsOpen(false)}
+                        className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-3 px-4 rounded-xl font-bold text-lg hover:shadow-lg transition-all duration-300"
+                      >
+                        Thanh toán
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
