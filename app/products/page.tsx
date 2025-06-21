@@ -31,10 +31,12 @@ export default function ProductsPage() {
   const { 
     products, 
     loading, 
+    filtering,
     error, 
     pagination 
   } = useProducts({
-    category_type: selectedCategory === 'all' ? undefined : selectedCategory,
+    category_id: selectedCategory === 'all' ? undefined : 
+                 !isNaN(parseInt(selectedCategory)) ? parseInt(selectedCategory) : undefined,
     search: searchTerm || undefined,
     sort_by: sortBy.includes('-') ? sortBy.split('-')[0] : sortBy,
     sort_order: sortBy.includes('-desc') ? 'desc' : 'asc',
@@ -116,19 +118,36 @@ export default function ProductsPage() {
             {/* Search and Sort */}
             <div className="mb-8 flex flex-col md:flex-row gap-4 items-center justify-between">
               <div className="flex-1 max-w-md">
-                <input
-                  type="text"
-                  placeholder="Tìm kiếm sản phẩm..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                />
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Tìm kiếm bánh kem..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 text-sm border-2 border-gray-200 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-200 placeholder-gray-500"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm('')}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    >
+                      <svg className="h-4 w-4 text-gray-400 hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="flex items-center gap-4">
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
+                  className="px-4 py-3 text-sm border-2 border-gray-200 rounded-xl bg-white shadow-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all duration-200 text-gray-700"
                 >
                   <option value="name">Tên A-Z</option>
                   <option value="name-desc">Tên Z-A</option>
@@ -136,7 +155,7 @@ export default function ProductsPage() {
                   <option value="created_at">Cũ nhất</option>
                 </select>
                 {pagination && (
-                  <span className="text-gray-600">
+                  <span className="text-gray-600 font-medium whitespace-nowrap">
                     {pagination.total} sản phẩm
                   </span>
                 )}
@@ -146,7 +165,7 @@ export default function ProductsPage() {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-800 mb-4">
                 {selectedCategory === 'all' ? 'Tất Cả Sản Phẩm' : 
-                 categories.find((c) => c.type === selectedCategory)?.name}
+                 categories.find((c) => c.id.toString() === selectedCategory)?.name || 'Danh mục'}
               </h2>
               {searchTerm && (
                 <p className="text-gray-600 mb-4">
@@ -155,12 +174,38 @@ export default function ProductsPage() {
               )}
             </div>
             
-            {productCards.length > 0 ? (
+            {productCards.length > 0 || filtering ? (
               <>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {productCards.map((product: ProductCardData) => (
-                    <ProductCard key={product.id} {...product} />
-                  ))}
+                  {filtering ? (
+                    // Show skeleton loading during filtering
+                    Array.from({ length: 8 }).map((_, index) => (
+                      <div key={index} className="bg-white rounded-2xl shadow-md border border-gray-100 animate-pulse">
+                        <div className="bg-gray-200 rounded-t-2xl h-48"></div>
+                        <div className="p-5">
+                          <div className="h-6 bg-gray-200 rounded mb-2"></div>
+                          <div className="h-4 bg-gray-200 rounded mb-4"></div>
+                          <div className="flex items-center justify-between">
+                            <div className="h-6 bg-gray-200 rounded w-20"></div>
+                            <div className="h-10 bg-gray-200 rounded-full w-10"></div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    products.map((product: Product) => (
+                      <ProductCard 
+                        key={product.id}
+                        name={product.name}
+                        price={product.details.length > 0 ? product.details[0].price_display : 'Liên hệ'}
+                        image={product.image}
+                        description={product.description}
+                        badge={product.badge}
+                        slug={product.slug}
+                        product={product}
+                      />
+                    ))
+                  )}
                 </div>
                 
                 {/* Pagination info */}

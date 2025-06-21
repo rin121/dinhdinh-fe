@@ -72,6 +72,47 @@ export interface Allergen {
   updated_at: string;
 }
 
+// Cart Types
+export interface CartItem {
+  id: string; // unique identifier for cart item
+  productId: number;
+  productSlug: string;
+  productName: string;
+  productImage: string;
+  selectedSize: string;
+  selectedSizeId: number;
+  price: number; // price in VND (numeric)
+  priceDisplay: string; // formatted price like "250.000đ"
+  quantity: number;
+  servings: string;
+  addedAt: Date;
+}
+
+export interface CartSummary {
+  totalItems: number;
+  totalQuantity: number;
+  subtotal: number;
+  subtotalDisplay: string;
+  shipping: number;
+  shippingDisplay: string;
+  total: number;
+  totalDisplay: string;
+}
+
+export interface CartContextType {
+  items: CartItem[];
+  summary: CartSummary;
+  isOpen: boolean;
+  addItem: (product: Product, sizeDetail: ProductDetail, quantity?: number) => void;
+  removeItem: (itemId: string) => void;
+  updateQuantity: (itemId: string, quantity: number) => void;
+  clearCart: () => void;
+  forceClearCart: () => void; // Debug function
+  openCart: () => void;
+  closeCart: () => void;
+  toggleCart: () => void;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data: T;

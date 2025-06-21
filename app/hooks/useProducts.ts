@@ -16,6 +16,7 @@ interface UseProductsOptions {
 interface UseProductsReturn {
   products: Product[];
   loading: boolean;
+  filtering: boolean;
   error: string | null;
   pagination: {
     current_page: number;
@@ -30,12 +31,20 @@ interface UseProductsReturn {
 export function useProducts(options: UseProductsOptions = {}): UseProductsReturn {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState<UseProductsReturn['pagination']>(null);
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (isInitial = false) => {
     try {
-      setLoading(true);
+      // Only show full loading on initial load
+      if (isInitial) {
+        setLoading(true);
+        setInitialLoading(true);
+      } else {
+        // For filtering, just set loading without showing spinner
+        setLoading(true);
+      }
       setError(null);
 
       const params = new URLSearchParams();
@@ -77,11 +86,16 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsReturn
       setError('Có lỗi xảy ra khi tải sản phẩm');
     } finally {
       setLoading(false);
+      if (isInitial) {
+        setInitialLoading(false);
+      }
     }
   };
 
   useEffect(() => {
-    fetchProducts();
+    // Check if this is the initial load
+    const isInitial = initialLoading;
+    fetchProducts(isInitial);
   }, [
     options.category_id,
     options.category_type,
@@ -95,10 +109,11 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsReturn
 
   return {
     products,
-    loading,
+    loading: initialLoading, // Only show loading spinner on initial load
+    filtering: loading && !initialLoading, // Show filtering indicator
     error,
     pagination,
-    refetch: fetchProducts
+    refetch: () => fetchProducts(false)
   };
 }
 
@@ -146,6 +161,7 @@ export function useFeaturedProducts(): UseProductsReturn {
   return {
     products,
     loading,
+    filtering: false, // Featured products don't have filtering
     error,
     pagination: null,
     refetch: fetchFeaturedProducts
@@ -210,6 +226,7 @@ export function useProductSearch(query: string): UseProductsReturn {
   return {
     products,
     loading,
+    filtering: false, // Search doesn't show filtering indicator
     error,
     pagination: null,
     refetch: searchProducts

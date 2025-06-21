@@ -95,8 +95,17 @@ export default function ProductsSection() {
 
         {productCards.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 animate-slide-in-up">
-            {productCards.map((product: ProductCardData) => (
-              <ProductCard key={product.id} {...product} />
+            {products.map((product: Product) => (
+              <ProductCard 
+                key={product.id}
+                name={product.name}
+                price={product.details.length > 0 ? product.details[0].price_display : 'Liên hệ'}
+                image={product.image}
+                description={product.description}
+                badge={product.badge}
+                slug={product.slug}
+                product={product}
+              />
             ))}
           </div>
         ) : (

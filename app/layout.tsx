@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { CartProvider } from './contexts/CartContext';
 
-const poppins = Poppins({
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  weight: ['400', '500', '600', '700', '800', '900'],
-  variable: '--font-poppins'
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "DinhDinh Cake - Tiệm bánh ngọt ngào",
-  description: "Khám phá thế giới bánh kem ngọt ngào tại DinhDinh Cake. Đa dạng mẫu mã, hương vị tuyệt hảo cho mọi dịp đặc biệt.",
+  title: "DinhDinh Cake - Bánh Kem Thủ Công",
+  description: "Bánh kem thủ công cao cấp với hương vị tuyệt vời",
 };
 
 export default function RootLayout({
@@ -20,8 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <body className={`${poppins.variable} font-sans antialiased`}>
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   );
