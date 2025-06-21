@@ -7,14 +7,16 @@ import SearchAndSort from '../components/SearchAndSort';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { allProducts, categories } from '../data/products';
+import { allProducts } from '../data/products';
 import { Product, Category } from '../data/types';
+import { useCategories } from '../hooks/useCategories';
 
 export default function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('name');
   const [isLoading, setIsLoading] = useState(true);
+  const { categories } = useCategories({ activeOnly: true });
 
   // Simulate loading effect
   useEffect(() => {
@@ -84,7 +86,6 @@ export default function ProductsPage() {
 
         {/* Categories */}
         <CategoryFilter 
-          categories={categories}
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
         />
@@ -104,7 +105,7 @@ export default function ProductsPage() {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-gray-800 mb-4">
                 {selectedCategory === 'all' ? 'Tất Cả Sản Phẩm' : 
-                 categories.find((c: Category) => c.id === selectedCategory)?.name}
+                 categories.find((c) => c.id.toString() === selectedCategory)?.name}
               </h2>
               {searchTerm && (
                 <p className="text-gray-600 mb-4">

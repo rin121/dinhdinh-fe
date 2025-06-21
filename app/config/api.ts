@@ -10,6 +10,10 @@ export const ENDPOINTS = {
   SETTINGS: '/settings',
   SETTINGS_MENU: '/settings/menu',
   SETTINGS_BULK: '/settings/bulk',
+  CATEGORIES: '/categories',
+  CATEGORIES_ACTIVE: '/categories/active',
+  CATEGORIES_BY_TYPE: '/categories/type',
+  CATEGORIES_TYPES: '/categories/types',
 } as const;
 
 export const DEFAULT_MENU = [

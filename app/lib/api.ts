@@ -24,6 +24,18 @@ export interface Setting {
   updated_at: string;
 }
 
+export interface Category {
+  id: number;
+  name: string;
+  icon: string;
+  type: string;
+  description?: string;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
 class ApiClient {
   private baseURL: string;
 
@@ -87,6 +99,58 @@ class ApiClient {
       body: JSON.stringify({ key, value }),
     });
   }
+
+  // Categories API methods
+  async getAllCategories(params?: {
+    type?: string;
+    search?: string;
+    status?: string;
+    per_page?: number;
+  }): Promise<ApiResponse<Category[]>> {
+    const searchParams = new URLSearchParams();
+    if (params?.type) searchParams.append('type', params.type);
+    if (params?.search) searchParams.append('search', params.search);
+    if (params?.status) searchParams.append('status', params.status);
+    if (params?.per_page) searchParams.append('per_page', params.per_page.toString());
+    
+    const url = searchParams.toString() 
+      ? `${ENDPOINTS.CATEGORIES}?${searchParams.toString()}`
+      : ENDPOINTS.CATEGORIES;
+    
+    return this.request<Category[]>(url);
+  }
+
+  async getActiveCategories(): Promise<ApiResponse<Category[]>> {
+    return this.request<Category[]>(ENDPOINTS.CATEGORIES_ACTIVE);
+  }
+
+  async getCategoriesByType(type: string): Promise<ApiResponse<Category[]>> {
+    return this.request<Category[]>(`${ENDPOINTS.CATEGORIES_BY_TYPE}?type=${type}`);
+  }
+
+  async getCategoryTypes(): Promise<ApiResponse<Record<string, string>>> {
+    return this.request<Record<string, string>>(ENDPOINTS.CATEGORIES_TYPES);
+  }
+
+  async createCategory(data: Partial<Category>): Promise<ApiResponse<Category>> {
+    return this.request<Category>(ENDPOINTS.CATEGORIES, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async updateCategory(id: number, data: Partial<Category>): Promise<ApiResponse<Category>> {
+    return this.request<Category>(`${ENDPOINTS.CATEGORIES}/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async deleteCategory(id: number): Promise<ApiResponse<void>> {
+    return this.request<void>(`${ENDPOINTS.CATEGORIES}/${id}`, {
+      method: 'DELETE',
+    });
+  }
 }
 
 // Export singleton instance
@@ -99,4 +163,15 @@ export const settingsApi = {
   getByKey: (key: string) => apiClient.getSettingByKey(key),
   getBulk: (keys: string[]) => apiClient.getMultipleSettings(keys),
   save: (key: string, value: any) => apiClient.createOrUpdateSetting(key, value),
+};
+
+export const categoriesApi = {
+  getAll: (params?: { type?: string; search?: string; status?: string; per_page?: number }) => 
+    apiClient.getAllCategories(params),
+  getActive: () => apiClient.getActiveCategories(),
+  getByType: (type: string) => apiClient.getCategoriesByType(type),
+  getTypes: () => apiClient.getCategoryTypes(),
+  create: (data: Partial<Category>) => apiClient.createCategory(data),
+  update: (id: number, data: Partial<Category>) => apiClient.updateCategory(id, data),
+  delete: (id: number) => apiClient.deleteCategory(id),
 }; 
