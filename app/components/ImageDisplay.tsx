@@ -153,20 +153,6 @@ export default function ImageDisplay({
           ))}
         </div>
       )}
-
-      {/* Image info - chỉ hiển thị khi size là xl (trang chi tiết) */}
-      {mainImage && size === 'xl' && (
-        <div className="bg-white/70 backdrop-blur-sm rounded-lg px-3 py-2 text-xs text-gray-600 text-center shadow-sm">
-          {mainImage.width && mainImage.height && (
-            <span className="font-medium">{mainImage.width}×{mainImage.height}px</span>
-          )}
-          {mainImage.size && (
-            <span className="ml-2 text-gray-500">
-              • {(mainImage.size / 1024 / 1024).toFixed(1)}MB
-            </span>
-          )}
-        </div>
-      )}
     </div>
   );
 } 

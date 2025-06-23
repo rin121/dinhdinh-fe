@@ -35,9 +35,9 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Liên hệ</h4>
             <ul className="space-y-2 text-gray-400">
-              <li>0909 123 456</li>
-              <li>info@dinhdinhcake.com</li>
-              <li>123 Đường ABC, Q1, TP.HCM</li>
+              <li>0911576548</li>
+              <li>kduy121@gmail.com</li>
+              <li>805 Tân Xuân - Hàm Tân - Bình Thuận</li>
             </ul>
           </div>
         </div>
