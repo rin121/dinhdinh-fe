@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { Product } from '../data/types';
+import ImageDisplay from './ImageDisplay';
 
 interface ProductCardProps {
   name: string;
@@ -49,13 +50,18 @@ export default function ProductCard({ name, price, image, description, badge, sl
     <Link href={`/products/${slug}`} className="group block h-full">
       <div className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 flex flex-col h-full">
         <div className="relative flex-grow">
-          <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-t-2xl p-6 flex items-center justify-center h-48">
-            <span className="text-6xl group-hover:scale-110 transition-transform duration-300 ease-in-out">
-              {image}
-            </span>
+          <div className="rounded-t-2xl overflow-hidden">
+            <ImageDisplay
+              images={product?.images}
+              primaryImage={product?.primary_image}
+              fallbackImage={image}
+              size="md"
+              showGallery={false}
+              alt={name}
+            />
           </div>
           {badge && (
-            <div className="absolute top-4 right-4 bg-pink-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
+            <div className="absolute top-4 right-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg backdrop-blur-sm">
               {badge}
             </div>
           )}

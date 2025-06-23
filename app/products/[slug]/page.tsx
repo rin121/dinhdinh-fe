@@ -7,6 +7,7 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import AddToCartButton from '../../components/AddToCartButton';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import ImageDisplay from '../../components/ImageDisplay';
 import { Product, ProductDetail } from '../../data/types';
 import { apiClient } from '../../lib/api';
 
@@ -16,7 +17,6 @@ export default function ProductDetailPage() {
   
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedSize, setSelectedSize] = useState<ProductDetail | null>(null);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -84,8 +84,6 @@ export default function ProductDetailPage() {
     );
   }
 
-  const images = product.gallery && product.gallery.length > 0 ? product.gallery : [product.image];
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50">
       <Header />
@@ -109,31 +107,15 @@ export default function ProductDetailPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Product Images */}
             <div className="space-y-4">
-              {/* Main Image */}
-              <div className="bg-white rounded-2xl shadow-lg p-8 flex items-center justify-center h-96">
-                <span className="text-8xl animate-float">
-                  {images[selectedImageIndex]}
-                </span>
-              </div>
-              
-              {/* Image Gallery */}
-              {images.length > 1 && (
-                <div className="flex space-x-4 justify-center">
-                  {images.map((img, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImageIndex(index)}
-                      className={`w-16 h-16 rounded-lg flex items-center justify-center text-2xl transition-all ${
-                        selectedImageIndex === index
-                          ? 'bg-gradient-to-br from-pink-100 to-purple-100 ring-2 ring-pink-500'
-                          : 'bg-gray-100 hover:bg-gray-200'
-                      }`}
-                    >
-                      {img}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <ImageDisplay
+                images={product.images}
+                primaryImage={product.primary_image}
+                fallbackImage={product.image}
+                size="xl"
+                showGallery={true}
+                alt={product.name}
+                className="w-full"
+              />
             </div>
 
             {/* Product Info */}

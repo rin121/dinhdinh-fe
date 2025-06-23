@@ -1,3 +1,20 @@
+export interface ProductImage {
+  id: number;
+  product_id: number;
+  filename: string;
+  path: string;
+  url: string;
+  alt_text?: string;
+  size: number;
+  mime_type: string;
+  width?: number;
+  height?: number;
+  is_primary: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface Product {
   id: number;
   slug: string;
@@ -16,6 +33,8 @@ export interface Product {
   details: ProductDetail[];
   ingredients: Ingredient[];
   allergens: Allergen[];
+  images?: ProductImage[];
+  primary_image?: ProductImage;
   // Computed properties for backward compatibility
   price?: string; // Will be computed from details
   longDescription?: string; // Alias for long_description
