@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useCart } from '../contexts/CartContext';
 import { apiClient } from '../lib/api';
 import { API_CONFIG } from '../config/api';
-import Toast from '../components/Toast';
 
 interface CheckoutForm {
   customer_name: string;
@@ -162,9 +161,10 @@ export default function CheckoutPage() {
         throw new Error(result.message || result.error || 'Có lỗi xảy ra khi đặt hàng');
       }
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Order creation failed:', error);
-      alert(error.message || 'Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại.');
+      const errorMessage = error instanceof Error ? error.message : 'Có lỗi xảy ra khi đặt hàng. Vui lòng thử lại.';
+      alert(errorMessage);
       setIsLoading(false); // Only set loading false on error
     }
   };

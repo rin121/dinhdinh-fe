@@ -6,6 +6,7 @@ import CategoryFilter from './CategoryFilter';
 import LoadingSpinner from './LoadingSpinner';
 import { Product } from '../data/types';
 import { useProducts } from '../hooks/useProducts';
+import Link from 'next/link';
 
 interface ProductCardData {
   id: number;
@@ -122,7 +123,7 @@ export default function ProductsSection() {
         )}
 
         <div className="text-center mt-12">
-          <a
+          <Link
             href="/products"
             className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-full hover:from-pink-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
           >
@@ -130,7 +131,7 @@ export default function ProductsSection() {
             <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

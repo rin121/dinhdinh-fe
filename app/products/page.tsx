@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import ProductCard from '../components/ProductCard';
 import CategoryFilter from '../components/CategoryFilter';
-import SearchAndSort from '../components/SearchAndSort';
+
 import LoadingSpinner from '../components/LoadingSpinner';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Product, Category } from '../data/types';
+import { Product } from '../data/types';
 import { useCategories } from '../hooks/useCategories';
 import { useProducts } from '../hooks/useProducts';
 
@@ -169,7 +169,7 @@ export default function ProductsPage() {
               </h2>
               {searchTerm && (
                 <p className="text-gray-600 mb-4">
-                  Kết quả tìm kiếm cho: "<span className="font-semibold">{searchTerm}</span>"
+                  Kết quả tìm kiếm cho: &quot;<span className="font-semibold">{searchTerm}</span>&quot;
                 </p>
               )}
             </div>

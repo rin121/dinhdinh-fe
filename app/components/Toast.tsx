@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 interface ToastProps {
   message: string;
@@ -13,6 +13,14 @@ export default function Toast({ message, type = 'success', duration = 5000, onCl
   const [isVisible, setIsVisible] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
 
+  const handleClose = useCallback(() => {
+    setIsLeaving(true);
+    setTimeout(() => {
+      setIsVisible(false);
+      onClose();
+    }, 300);
+  }, [onClose]);
+
   useEffect(() => {
     // Show toast
     setIsVisible(true);
@@ -23,15 +31,7 @@ export default function Toast({ message, type = 'success', duration = 5000, onCl
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [duration]);
-
-  const handleClose = () => {
-    setIsLeaving(true);
-    setTimeout(() => {
-      setIsVisible(false);
-      onClose();
-    }, 300);
-  };
+  }, [duration, handleClose]);
 
   if (!isVisible) return null;
 

@@ -131,4 +131,4 @@ export interface PaginatedResponse<T> {
   };
 }
 
-export interface ProductsApiResponse extends PaginatedResponse<Product> {} 
+export type ProductsApiResponse = PaginatedResponse<Product>; 

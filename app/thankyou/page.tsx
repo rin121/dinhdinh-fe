@@ -1,11 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function ThankYouPage() {
-  const router = useRouter();
   const [showConfetti, setShowConfetti] = useState(true);
 
   useEffect(() => {

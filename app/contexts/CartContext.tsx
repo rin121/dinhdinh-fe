@@ -28,10 +28,6 @@ const formatPrice = (price: number): string => {
   }).format(price).replace('₫', 'đ');
 };
 
-const parsePrice = (priceString: string): number => {
-  return parseInt(priceString.replace(/[^\d]/g, ''));
-};
-
 const generateCartItemId = (productId: number, sizeId: number): string => {
   return `${productId}-${sizeId}`;
 };
@@ -163,15 +159,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       try {
         const items = JSON.parse(savedCart);
         // Convert addedAt strings back to Date objects and validate data
-        const itemsWithDates = items.map((item: any) => {
+        const itemsWithDates = items.map((item: unknown) => {
+          // Type check the item
+          if (typeof item !== 'object' || item === null) {
+            throw new Error('Invalid item format');
+          }
+          
+          const cartItem = item as Record<string, unknown>;
+          
           // Validate price is a number
-          if (typeof item.price !== 'number' || isNaN(item.price)) {
+          if (typeof cartItem.price !== 'number' || isNaN(cartItem.price)) {
             console.warn('Invalid price in localStorage, clearing cart:', item);
             throw new Error('Invalid price data');
           }
           return {
-            ...item,
-            addedAt: new Date(item.addedAt)
+            ...cartItem,
+            addedAt: new Date(cartItem.addedAt as string)
           };
         });
         dispatch({ type: 'LOAD_CART', payload: { items: itemsWithDates } });
