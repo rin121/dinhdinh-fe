@@ -20,7 +20,7 @@ export interface MenuItem {
 export interface Setting {
   id: number;
   key: string;
-  value: any;
+  value: unknown;
   created_at: string;
   updated_at: string;
 }
@@ -99,7 +99,7 @@ class ApiClient {
   }
 
   // Generic POST method
-  async post<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
+  async post<T>(endpoint: string, data?: unknown): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
@@ -119,14 +119,14 @@ class ApiClient {
     return this.request<Setting>(ENDPOINTS.SETTINGS_MENU);
   }
 
-  async getMultipleSettings(keys: string[]): Promise<ApiResponse<Record<string, any>>> {
-    return this.request<Record<string, any>>(ENDPOINTS.SETTINGS_BULK, {
+  async getMultipleSettings(keys: string[]): Promise<ApiResponse<Record<string, unknown>>> {
+    return this.request<Record<string, unknown>>(ENDPOINTS.SETTINGS_BULK, {
       method: 'POST',
       body: JSON.stringify({ keys }),
     });
   }
 
-  async createOrUpdateSetting(key: string, value: any): Promise<ApiResponse<Setting>> {
+  async createOrUpdateSetting(key: string, value: unknown): Promise<ApiResponse<Setting>> {
     return this.request<Setting>(ENDPOINTS.SETTINGS, {
       method: 'POST',
       body: JSON.stringify({ key, value }),
@@ -235,7 +235,7 @@ export const settingsApi = {
   getAll: () => apiClient.getAllSettings(),
   getByKey: (key: string) => apiClient.getSettingByKey(key),
   getBulk: (keys: string[]) => apiClient.getMultipleSettings(keys),
-  save: (key: string, value: any) => apiClient.createOrUpdateSetting(key, value),
+  save: (key: string, value: unknown) => apiClient.createOrUpdateSetting(key, value),
 };
 
 export const categoriesApi = {

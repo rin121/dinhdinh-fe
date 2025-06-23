@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { categoriesApi, Category } from '../lib/api';
 
 interface UseCategoriesReturn {
@@ -22,7 +22,7 @@ export function useCategories(options: UseCategoriesOptions = {}): UseCategories
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -62,11 +62,11 @@ export function useCategories(options: UseCategoriesOptions = {}): UseCategories
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [options.type, options.activeOnly, options.search, options.status]);
 
   useEffect(() => {
     fetchCategories();
-  }, [options.type, options.activeOnly, options.search, options.status]);
+  }, [fetchCategories]);
 
   return {
     categories,

@@ -59,12 +59,12 @@ export default function DynamicMenu({
         <Link href="/blog" className={itemClassName} onClick={onItemClick}>
           Góc Đình Đình
         </Link>
-        <a href="/#about" className={itemClassName} onClick={onItemClick}>
+        <Link href="/#about" className={itemClassName} onClick={onItemClick}>
           Về chúng tôi
-        </a>
-        <a href="/#contact" className={itemClassName} onClick={onItemClick}>
+        </Link>
+        <Link href="/#contact" className={itemClassName} onClick={onItemClick}>
           Liên hệ
-        </a>
+        </Link>
       </nav>
     );
   }

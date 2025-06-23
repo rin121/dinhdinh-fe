@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { apiClient } from '../lib/api';
-import { Product, ProductsApiResponse } from '../data/types';
+import { Product, ProductsApiResponse, ProductDetail } from '../data/types';
 
 interface UseProductsOptions {
   category_id?: number;
@@ -35,7 +35,7 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsReturn
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState<UseProductsReturn['pagination']>(null);
 
-  const fetchProducts = async (isInitial = false) => {
+  const fetchProducts = useCallback(async (isInitial = false) => {
     try {
       // Only show full loading on initial load
       if (isInitial) {
@@ -69,7 +69,7 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsReturn
           // Add alias for long_description
           longDescription: product.long_description,
           // Add sizes array for backward compatibility
-          sizes: product.details.map((detail: any) => ({
+          sizes: product.details.map((detail: ProductDetail) => ({
             size: detail.size,
             price: detail.price_display,
             servings: detail.servings
@@ -90,12 +90,6 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsReturn
         setInitialLoading(false);
       }
     }
-  };
-
-  useEffect(() => {
-    // Check if this is the initial load
-    const isInitial = initialLoading;
-    fetchProducts(isInitial);
   }, [
     options.category_id,
     options.category_type,
@@ -106,6 +100,12 @@ export function useProducts(options: UseProductsOptions = {}): UseProductsReturn
     options.per_page,
     options.active_only
   ]);
+
+  useEffect(() => {
+    // Check if this is the initial load
+    const isInitial = initialLoading;
+    fetchProducts(isInitial);
+  }, [fetchProducts, initialLoading]);
 
   return {
     products,
@@ -123,7 +123,7 @@ export function useFeaturedProducts(): UseProductsReturn {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchFeaturedProducts = async () => {
+  const fetchFeaturedProducts = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -135,7 +135,7 @@ export function useFeaturedProducts(): UseProductsReturn {
           ...product,
           price: product.details.length > 0 ? product.details[0].price_display : 'Liên hệ',
           longDescription: product.long_description,
-          sizes: product.details.map((detail: any) => ({
+          sizes: product.details.map((detail: ProductDetail) => ({
             size: detail.size,
             price: detail.price_display,
             servings: detail.servings
@@ -152,11 +152,11 @@ export function useFeaturedProducts(): UseProductsReturn {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchFeaturedProducts();
-  }, []);
+  }, [fetchFeaturedProducts]);
 
   return {
     products,
@@ -179,7 +179,7 @@ export function useProductSearch(query: string): UseProductsReturn {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const searchProducts = async () => {
+  const searchProducts = useCallback(async () => {
     if (!query.trim()) {
       setProducts([]);
       return;
@@ -196,7 +196,7 @@ export function useProductSearch(query: string): UseProductsReturn {
           ...product,
           price: product.details.length > 0 ? product.details[0].price_display : 'Liên hệ',
           longDescription: product.long_description,
-          sizes: product.details.map((detail: any) => ({
+          sizes: product.details.map((detail: ProductDetail) => ({
             size: detail.size,
             price: detail.price_display,
             servings: detail.servings
@@ -213,7 +213,7 @@ export function useProductSearch(query: string): UseProductsReturn {
     } finally {
       setLoading(false);
     }
-  };
+  }, [query]);
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -221,7 +221,7 @@ export function useProductSearch(query: string): UseProductsReturn {
     }, 300); // Debounce search
 
     return () => clearTimeout(debounceTimer);
-  }, [query]);
+  }, [searchProducts]);
 
   return {
     products,
