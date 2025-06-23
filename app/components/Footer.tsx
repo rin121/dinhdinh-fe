@@ -42,7 +42,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2025 Đình Đình House . Tất cả quyền được bảo lưu.</p>
+          <p>&copy; 2025 Đình Đình House . Liên hệ hợp tác, thiết kế website: kduy121@gmail.com | 0928462386</p>
         </div>
       </div>
     </footer>

@@ -6,7 +6,7 @@ export const blogPosts = [
     excerpt: 'Sinh nhật là một dịp đặc biệt, và một chiếc bánh kem ngon không chỉ là món tráng miệng mà còn là tâm điểm của bữa tiệc. Làm thế nào để chọn được chiếc bánh ưng ý nhất?',
     image: '🎂',
     author: 'DinhDinh Chef',
-    date: '2024-07-20',
+    date: '2025-07-20',
     tags: ['Mẹo vặt', 'Bánh sinh nhật'],
     content: `
       <h2>Hiểu Rõ Sở Thích Của Chủ Nhân Bữa Tiệc</h2>
@@ -26,12 +26,12 @@ export const blogPosts = [
   },
   {
     id: 2,
-    slug: 'xu-huong-banh-cuoi-2024',
-    title: 'Xu Hướng Bánh Cưới "Gây Bão" Năm 2024',
+    slug: 'xu-huong-banh-cuoi-2025',
+    title: 'Xu Hướng Bánh Cưới "Gây Bão" Năm 2025',
     excerpt: 'Ngày cưới là ngày trọng đại, và chiếc bánh cưới cũng là một phần không thể thiếu. Cùng Đình Đình House điểm qua những xu hướng bánh cưới hot nhất năm nay nhé!',
     image: '💒',
     author: 'DinhDinh Wedding Planner',
-    date: '2024-07-15',
+    date: '2025-07-15',
     tags: ['Bánh cưới', 'Xu hướng'],
     content: `
       <h2>1. Bánh Cưới Tối Giản (Minimalist Cakes)</h2>
@@ -51,7 +51,7 @@ export const blogPosts = [
     excerpt: 'Bạn lỡ mua một chiếc bánh kem quá to và ăn không hết? Đừng lo, Đình Đình House sẽ mách bạn cách bảo quản để bánh vẫn ngon như mới vào ngày hôm sau.',
     image: '🧊',
     author: 'DinhDinh Chef',
-    date: '2024-07-10',
+    date: '2025-07-10',
     tags: ['Mẹo vặt', 'Bảo quản'],
     content: `
       <h2>Đối Với Bánh Kem Tươi (Whipping Cream)</h2>
